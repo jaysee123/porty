@@ -4,6 +4,13 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>James — JZ</title>
+  <meta name="description" content="James JZ — Head of Marketing, Comms & Strategy at Asymmetry Finance. Crypto-native brand builder, growth strategist, and product marketer.">
+  <meta property="og:title" content="James — JZ">
+  <meta property="og:description" content="Head of Marketing, Comms & Strategy at Asymmetry Finance. Co-built a brand from zero to $220M FDV.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="James — JZ">
+  <meta name="twitter:description" content="Head of Marketing, Comms & Strategy at Asymmetry Finance. Co-built a brand from zero to $220M FDV.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
@@ -11,7 +18,8 @@
     :root{--bg:#f7f0e6;--fg:#2a1f14;--muted:rgba(42,31,20,0.46);--accent:#9d4a22;--border:rgba(42,31,20,0.1);--card:#fffcf7;}
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
     html{scroll-behavior:smooth;}
-    body{background-color:var(--bg);background-image:repeating-radial-gradient(circle at 60% 35%,transparent 0,transparent 48px,rgba(42,31,20,0.04) 49px,transparent 50px);color:var(--fg);font-family:'DM Sans',sans-serif;font-weight:300;overflow-x:hidden;cursor:none;}
+    body{background-color:var(--bg);background-image:repeating-radial-gradient(circle at 60% 35%,transparent 0,transparent 48px,rgba(42,31,20,0.04) 49px,transparent 50px);color:var(--fg);font-family:'DM Sans',sans-serif;font-weight:300;overflow-x:hidden;}
+    @media(hover:hover) and (pointer:fine){body{cursor:none;}}
     #cur{width:8px;height:8px;background:var(--accent);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s;}
     #cur-ring{width:32px;height:32px;border:1px solid rgba(157,74,34,0.35);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .25s,height .25s;}
     body.hover-link #cur{width:48px;height:48px;background:transparent;border:1px solid var(--accent);}
@@ -63,12 +71,14 @@
     .c-title{font-family:'DM Serif Display',serif;font-size:1.2rem;font-weight:400;line-height:1.25;color:var(--fg);}
     .c-desc{font-size:.78rem;line-height:1.6;color:var(--muted);}
     .c-link{font-family:'Syne',sans-serif;font-size:.65rem;letter-spacing:.12em;text-transform:lowercase;color:var(--accent);margin-top:auto;}
-    .carousel-btn{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;background:rgba(42,31,20,0.05);border:1px solid var(--border);color:var(--fg);font-size:1.1rem;display:flex;align-items:center;justify-content:center;cursor:none;transition:background .2s,border-color .2s;z-index:10;}
+    .carousel-btn{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;background:rgba(42,31,20,0.05);border:1px solid var(--border);color:var(--fg);font-size:1.1rem;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .2s,border-color .2s;z-index:10;}
+    @media(hover:hover) and (pointer:fine){.carousel-btn{cursor:none;}}
     .carousel-btn:hover{background:rgba(157,74,34,0.1);border-color:rgba(157,74,34,0.3);}
     .carousel-btn-prev{left:calc(50% - 260px);}
     .carousel-btn-next{right:calc(50% - 260px);}
     .carousel-dots{display:flex;justify-content:center;gap:.6rem;padding-top:1rem;}
-    .c-dot{width:5px;height:5px;border-radius:50%;background:var(--border);border:none;cursor:none;transition:background .2s,transform .2s;}
+    .c-dot{width:5px;height:5px;border-radius:50%;background:var(--border);border:none;cursor:pointer;transition:background .2s,transform .2s;}
+    @media(hover:hover) and (pointer:fine){.c-dot{cursor:none;}}
     .c-dot.active{background:var(--accent);transform:scale(1.4);}
     .about-section{padding:3rem 3rem 7rem;max-width:960px;}
     .big-quote{font-family:'DM Serif Display',serif;font-size:clamp(1.4rem,2.8vw,2.1rem);line-height:1.45;font-weight:400;color:var(--fg);}
@@ -182,6 +192,67 @@
     @keyframes fadeScroll{0%,100%{opacity:0;transform:translateX(-50%) translateY(-8px)}50%{opacity:1;transform:translateX(-50%) translateY(0)}}
     .reveal{opacity:0;transform:translateY(22px);transition:opacity .65s ease,transform .65s ease;}
     .reveal.on{opacity:1;transform:translateY(0);}
+    /* Hamburger menu */
+    .nav-hamburger{display:none;background:none;border:none;cursor:pointer;padding:.5rem;z-index:201;}
+    .nav-hamburger span{display:block;width:20px;height:2px;background:var(--fg);margin:4px 0;transition:transform .3s,opacity .3s;}
+    .nav-hamburger.open span:nth-child(1){transform:rotate(45deg) translate(4px,4px);}
+    .nav-hamburger.open span:nth-child(2){opacity:0;}
+    .nav-hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(4px,-4px);}
+    /* Hide custom cursor elements on touch devices */
+    @media(hover:none),(pointer:coarse){#cur,#cur-ring{display:none;}}
+    /* Responsive breakpoints */
+    @media(max-width:1024px){
+      .cap-grid{grid-template-columns:repeat(2,1fr);}
+      .exp-row{grid-template-columns:120px 1fr;gap:1.2rem;}
+      .exp-tags{display:none;}
+      .carousel-btn-prev{left:1rem;}
+      .carousel-btn-next{right:1rem;}
+    }
+    @media(max-width:768px){
+      nav{padding:1.2rem 1.5rem;}
+      .nav-hamburger{display:block;}
+      .nav-links{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;background:var(--bg);padding:1.5rem;gap:1.2rem;border-bottom:1px solid var(--border);}
+      .nav-links.open{display:flex;}
+      .nav-cta{display:none;}
+      .hero{padding:0 1.5rem 3rem;}
+      .hero-sub{flex-direction:column;gap:1.5rem;align-items:flex-start;}
+      .stats-bar{flex-wrap:wrap;}
+      .stat-item{min-width:calc(50% - 1px);border-bottom:1px solid var(--border);}
+      .section-dot-label{padding:2rem 1.5rem .5rem;}
+      .carousel-stage{height:480px;}
+      .carousel-track{width:280px;height:420px;}
+      .c-card{width:280px;height:420px;}
+      .carousel-btn-prev{left:.5rem;}
+      .carousel-btn-next{right:.5rem;}
+      .about-section{padding:2rem 1.5rem 4rem;}
+      .about-row{flex-direction:column;gap:.5rem;align-items:flex-start;}
+      .about-row-label{flex:none;}
+      .experience-section{padding:1rem 1.5rem 3rem;}
+      .exp-row{grid-template-columns:1fr;gap:.8rem;}
+      .exp-period{padding-bottom:0;}
+      .exp-tags{display:none;}
+      div[style*="grid-template-columns:repeat(3,1fr)"]{grid-template-columns:1fr !important;}
+      .capabilities-section{padding:1rem 1.5rem 4rem;}
+      .cap-grid{grid-template-columns:1fr;}
+      .events-section{padding:1rem 1.5rem 4rem;}
+      .event-row{grid-template-columns:1fr;gap:.8rem;}
+      .testimonials-section{padding:1rem 1.5rem 2rem;}
+      .t-pair{grid-template-columns:1fr;}
+      .contact-section{padding:2rem 1.5rem 2rem;}
+      .contact-links-bar{flex-direction:column;align-items:flex-start;gap:.8rem;}
+      .avail-bar{padding:.4rem 1.5rem 0;}
+      .refs-note{padding:.8rem 0 2rem;}
+      footer{padding:1.5rem;flex-direction:column;gap:1rem;text-align:center;}
+      .footer-links{flex-wrap:wrap;justify-content:center;gap:1rem;}
+    }
+    @media(max-width:480px){
+      .hero-headline{font-size:clamp(2.2rem,10vw,3.5rem);}
+      .hero-desc{font-size:1.1rem;}
+      .carousel-stage{height:420px;}
+      .carousel-track{width:260px;height:390px;}
+      .c-card{width:260px;height:390px;}
+      .contact-big{font-size:clamp(1.3rem,5vw,1.8rem);}
+    }
   </style>
 </head>
 <body>
@@ -191,7 +262,8 @@
 
 <nav>
   <a class="nav-logo" href="#"><span>.</span>james &mdash; jz</a>
-  <ul class="nav-links">
+  <button class="nav-hamburger" id="navHamburger" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
+  <ul class="nav-links" id="navLinks">
     <li><a href="#work">work</a></li>
     <li><a href="#about">about</a></li>
     <li><a href="#experience">experience</a></li>
@@ -202,7 +274,8 @@
   <div><a class="nav-cta" href="mailto:deployjz@gmail.com">get in touch &darr;</a></div>
 </nav>
 
-<div class="hero">
+<main>
+<section class="hero">
   <div class="hero-bg-glow"></div>
   <p class="hero-pre">marketing &middot; strategy &middot; growth &middot; communications</p>
   <h1 class="hero-headline">
@@ -220,7 +293,7 @@
     <div class="hero-cta"><a href="#work">see my work &darr;</a></div>
   </div>
   <div class="hero-scroll-line"></div>
-</div>
+</section>
 
 <div class="stats-bar reveal">
   <div class="stat-item"><div class="stat-num">$220<span>M</span></div><div class="stat-label">peak FDV achieved &mdash; sole marketing &amp; comms hire</div></div>
@@ -230,8 +303,8 @@
   <div class="stat-item"><div class="stat-num">5.7<span>M+</span></div><div class="stat-label">views on all X content &mdash; 1 year</div></div>
 </div>
 
-<div id="work">
-  <p class="section-dot-label reveal">selected work:</p>
+<section id="work">
+  <h2 class="section-dot-label reveal">selected work:</h2>
   <div class="carousel-section">
     <div class="carousel-stage" id="cStage">
       <div class="carousel-track" id="carouselTrack">
@@ -240,27 +313,27 @@
           <div class="c-card-body"><div class="c-tags"><span class="c-tag">GTM &middot; Campaign</span></div><h3 class="c-title">Led a $3M public raise &mdash; sold out in 36 hours</h3><p class="c-desc">End-to-end campaign strategy, narrative, and launch execution that drove $3M in record time on the Fjord Foundry platform.</p><span class="c-link">view post &nearr;</span></div>
         </div>
         <div class="c-card" data-href="https://x.com/asymmetryfin/status/1952421605822562693">
-          <div class="c-card-img"><img src="usdaf_live_compressed.gif" alt="USDaf is live"></div>
+          <div class="c-card-img"><img src="usdaf_live_compressed.gif" alt="USDaf is live" loading="lazy"></div>
           <div class="c-card-body"><div class="c-tags"><span class="c-tag">Product Launch &middot; Video</span></div><h3 class="c-title">USDaf is live &mdash; professional announcement comms</h3><p class="c-desc">Scripted, produced and published all professional content posts across all platforms for Asymmetry.</p><span class="c-link">view post &nearr;</span></div>
         </div>
         <div class="c-card" data-href="https://x.com/asymmetryfin/status/1925948874419581044">
-          <div class="c-card-img"><img src="family_guy_compressed.gif" alt="Ideating creative content"></div>
+          <div class="c-card-img"><img src="family_guy_compressed.gif" alt="Ideating creative content" loading="lazy"></div>
           <div class="c-card-body"><div class="c-tags"><span class="c-tag">Creative &middot; Viral</span></div><h3 class="c-title">Ideating creative content &mdash; consistently CT viral</h3><p class="c-desc">CT-native creative &mdash; striking the balance between entertainment and announcement.</p><span class="c-link">view post &nearr;</span></div>
         </div>
         <div class="c-card" data-href="https://www.youtube.com/@asymmetryfin">
-          <div class="c-card-img"><img src="youtube.gif" alt="YouTube educational series"></div>
+          <div class="c-card-img"><img src="youtube.gif" alt="YouTube educational series" loading="lazy"></div>
           <div class="c-card-body"><div class="c-tags"><span class="c-tag">Education &middot; Onboarding</span></div><h3 class="c-title">360&deg; educational video series &mdash; YouTube and X</h3><p class="c-desc">Scripted, produced and edited how-to guides turning complex DeFi into accessible onboarding content.</p><span class="c-link">view channel &nearr;</span></div>
         </div>
         <div class="c-card" data-href="https://docs.asymmetry.finance">
-          <div class="c-card-img"><img src="docs.gif" alt="Asymmetry documentation"></div>
+          <div class="c-card-img"><img src="docs.gif" alt="Asymmetry documentation" loading="lazy"></div>
           <div class="c-card-body"><div class="c-tags"><span class="c-tag">Docs &middot; UX Writing</span></div><h3 class="c-title">Asymmetry&rsquo;s docs &mdash; technical writing accessible to all levels</h3><p class="c-desc">Co-author of all protocol documentation, FAQs, and user guides &mdash; engineering into clear user-facing language.</p><span class="c-link">read docs &nearr;</span></div>
         </div>
         <div class="c-card" data-href="https://x.com/asymmetryfin/status/1887568114168308189">
-          <div class="c-card-img"><img src="declassified.png" alt="Declassified viral post"></div>
+          <div class="c-card-img"><img src="declassified.png" alt="Declassified viral post" loading="lazy"></div>
           <div class="c-card-body"><div class="c-tags"><span class="c-tag">X &middot; Narrative</span></div><h3 class="c-title">Declassified files &mdash; crafting a unique brand identity</h3><p class="c-desc">Cleverly tapping into existing trends, narratives, and cultural moments to amplify brand reach.</p><span class="c-link">view post &nearr;</span></div>
         </div>
         <div class="c-card" data-href="https://asymmetry.finance">
-          <div class="c-card-img"><img src="gem rush.gif" alt="The Gem Rush"></div>
+          <div class="c-card-img"><img src="gem%20rush.gif" alt="The Gem Rush" loading="lazy"></div>
           <div class="c-card-body"><div class="c-tags"><span class="c-tag">Product &middot; Strategy</span></div><h3 class="c-title">The Gem Rush &mdash; building an incentive program from scratch</h3><p class="c-desc">Co-created and deployed our milestone-based incentive program &mdash; Asymmetry&rsquo;s in-house designed &lsquo;Gem Rush&rsquo; points system.</p><span class="c-link">learn more &nearr;</span></div>
         </div>
       </div>
@@ -269,10 +342,10 @@
     </div>
     <div class="carousel-dots" id="cDots"></div>
   </div>
-</div>
+</section>
 
-<div id="about">
-  <p class="section-dot-label reveal">about:</p>
+<section id="about">
+  <h2 class="section-dot-label reveal">about:</h2>
   <div class="about-section reveal">
     <p class="big-quote">i work at the intersection of <em>growth strategy</em>, <em>product marketing</em>, and <em>brand communication</em><span style="color:var(--accent);">.</span> a deep understanding and experience of our niche world,<br><span style="color:var(--accent);"> with proven results.</span></p>
     <div class="about-details">
@@ -281,30 +354,30 @@
         <span class="about-row-label">worked with</span>
         <div class="logo-carousel-wrap">
           <div class="logo-carousel-track" id="logoTrack">
-            <span class="logo-circle"><img class="logo-circle-img" src="Chainlink.png" alt="Chainlink"><span class="logo-circle-tooltip">Chainlink</span></span>
-            <span class="logo-circle"><img class="logo-circle-img" src="Curve.png" alt="Curve"><span class="logo-circle-tooltip">Curve</span></span>
-            <span class="logo-circle"><img class="logo-circle-img" src="Frax.png" alt="Frax"><span class="logo-circle-tooltip">Frax</span></span>
-            <span class="logo-circle"><img class="logo-circle-img" src="Pendle.png" alt="Pendle"><span class="logo-circle-tooltip">Pendle</span></span>
-            <span class="logo-circle"><img class="logo-circle-img" src="Yearn.png" alt="Yearn"><span class="logo-circle-tooltip">Yearn</span></span>
-            <span class="logo-circle"><img class="logo-circle-img" src="Convex.png" alt="Convex"><span class="logo-circle-tooltip">Convex</span></span>
-            <span class="logo-circle"><img class="logo-circle-img" src="Euler.png" alt="Euler"><span class="logo-circle-tooltip">Euler</span></span>
-            <span class="logo-circle"><img class="logo-circle-img" src="Stargate.png" alt="Stargate"><span class="logo-circle-tooltip">Stargate</span></span>
-            <span class="logo-circle"><img class="logo-circle-img" src="Liquity.png" alt="Liquity"><span class="logo-circle-tooltip">Liquity</span></span>
-            <span class="logo-circle"><img class="logo-circle-img" src="Binance Wallet.png" alt="Binance Wallet"><span class="logo-circle-tooltip">Binance Wallet</span></span>
-            <span class="logo-circle"><img class="logo-circle-img" src="Base.png" alt="Base"><span class="logo-circle-tooltip">Base</span></span>
-            <span class="logo-circle"><img class="logo-circle-img" src="Aerodrome.svg" alt="Aerodrome"><span class="logo-circle-tooltip">Aerodrome</span></span>
-            <span class="logo-circle"><img class="logo-circle-img" src="CoW Swap.png" alt="CoW Swap"><span class="logo-circle-tooltip">CoW Swap</span></span>
-            <span class="logo-circle"><img class="logo-circle-img" src="Pyth.png" alt="Pyth"><span class="logo-circle-tooltip">Pyth</span></span>
-            <span class="logo-circle"><img class="logo-circle-img" src="StakeDAO.png" alt="StakeDAO"><span class="logo-circle-tooltip">StakeDAO</span></span>
-            <span class="logo-circle"><img class="logo-circle-img" src="Threshold.png" alt="Threshold"><span class="logo-circle-tooltip">Threshold</span></span>
-            <span class="logo-circle"><img class="logo-circle-img" src="Swell.png" alt="Swell"><span class="logo-circle-tooltip">Swell</span></span>
-            <span class="logo-circle"><img class="logo-circle-img" src="Ampleforth.jpeg" alt="Ampleforth"><span class="logo-circle-tooltip">Ampleforth</span></span>
-            <span class="logo-circle"><img class="logo-circle-img" src="Spectra.jpg" alt="Spectra"><span class="logo-circle-tooltip">Spectra</span></span>
-            <span class="logo-circle"><img class="logo-circle-img" src="Cantina.jpg" alt="Cantina"><span class="logo-circle-tooltip">Cantina</span></span>
-            <span class="logo-circle"><img class="logo-circle-img" src="Pluno.png" alt="Pluno"><span class="logo-circle-tooltip">Pluno</span></span>
-            <span class="logo-circle"><img class="logo-circle-img" src="Mario Nawfal.jpg" alt="Mario Nawfal"><span class="logo-circle-tooltip">Mario Nawfal</span></span>
-            <span class="logo-circle"><img class="logo-circle-img" src="Elon Trades.jpg" alt="ElonTrades"><span class="logo-circle-tooltip">ElonTrades</span></span>
-            <span class="logo-circle"><img class="logo-circle-img" src="Castle Island Ventures.jpeg" alt="Castle Island Ventures"><span class="logo-circle-tooltip">Castle Island Ventures</span></span>
+            <span class="logo-circle"><img class="logo-circle-img" loading="lazy" src="Chainlink.png" alt="Chainlink"><span class="logo-circle-tooltip">Chainlink</span></span>
+            <span class="logo-circle"><img class="logo-circle-img" loading="lazy" src="Curve.png" alt="Curve"><span class="logo-circle-tooltip">Curve</span></span>
+            <span class="logo-circle"><img class="logo-circle-img" loading="lazy" src="Frax.png" alt="Frax"><span class="logo-circle-tooltip">Frax</span></span>
+            <span class="logo-circle"><img class="logo-circle-img" loading="lazy" src="Pendle.png" alt="Pendle"><span class="logo-circle-tooltip">Pendle</span></span>
+            <span class="logo-circle"><img class="logo-circle-img" loading="lazy" src="Yearn.png" alt="Yearn"><span class="logo-circle-tooltip">Yearn</span></span>
+            <span class="logo-circle"><img class="logo-circle-img" loading="lazy" src="Convex.png" alt="Convex"><span class="logo-circle-tooltip">Convex</span></span>
+            <span class="logo-circle"><img class="logo-circle-img" loading="lazy" src="Euler.png" alt="Euler"><span class="logo-circle-tooltip">Euler</span></span>
+            <span class="logo-circle"><img class="logo-circle-img" loading="lazy" src="Stargate.png" alt="Stargate"><span class="logo-circle-tooltip">Stargate</span></span>
+            <span class="logo-circle"><img class="logo-circle-img" loading="lazy" src="Liquity.png" alt="Liquity"><span class="logo-circle-tooltip">Liquity</span></span>
+            <span class="logo-circle"><img class="logo-circle-img" loading="lazy" src="Binance%20Wallet.png" alt="Binance Wallet"><span class="logo-circle-tooltip">Binance Wallet</span></span>
+            <span class="logo-circle"><img class="logo-circle-img" loading="lazy" src="Base.png" alt="Base"><span class="logo-circle-tooltip">Base</span></span>
+            <span class="logo-circle"><img class="logo-circle-img" loading="lazy" src="Aerodrome.svg" alt="Aerodrome"><span class="logo-circle-tooltip">Aerodrome</span></span>
+            <span class="logo-circle"><img class="logo-circle-img" loading="lazy" src="CoW%20Swap.png" alt="CoW Swap"><span class="logo-circle-tooltip">CoW Swap</span></span>
+            <span class="logo-circle"><img class="logo-circle-img" loading="lazy" src="Pyth.png" alt="Pyth"><span class="logo-circle-tooltip">Pyth</span></span>
+            <span class="logo-circle"><img class="logo-circle-img" loading="lazy" src="StakeDAO.png" alt="StakeDAO"><span class="logo-circle-tooltip">StakeDAO</span></span>
+            <span class="logo-circle"><img class="logo-circle-img" loading="lazy" src="Threshold.png" alt="Threshold"><span class="logo-circle-tooltip">Threshold</span></span>
+            <span class="logo-circle"><img class="logo-circle-img" loading="lazy" src="Swell.png" alt="Swell"><span class="logo-circle-tooltip">Swell</span></span>
+            <span class="logo-circle"><img class="logo-circle-img" loading="lazy" src="Ampleforth.jpeg" alt="Ampleforth"><span class="logo-circle-tooltip">Ampleforth</span></span>
+            <span class="logo-circle"><img class="logo-circle-img" loading="lazy" src="Spectra.jpg" alt="Spectra"><span class="logo-circle-tooltip">Spectra</span></span>
+            <span class="logo-circle"><img class="logo-circle-img" loading="lazy" src="Cantina.jpg" alt="Cantina"><span class="logo-circle-tooltip">Cantina</span></span>
+            <span class="logo-circle"><img class="logo-circle-img" loading="lazy" src="Pluno.png" alt="Pluno"><span class="logo-circle-tooltip">Pluno</span></span>
+            <span class="logo-circle"><img class="logo-circle-img" loading="lazy" src="Mario%20Nawfal.jpg" alt="Mario Nawfal"><span class="logo-circle-tooltip">Mario Nawfal</span></span>
+            <span class="logo-circle"><img class="logo-circle-img" loading="lazy" src="Elon%20Trades.jpg" alt="ElonTrades"><span class="logo-circle-tooltip">ElonTrades</span></span>
+            <span class="logo-circle"><img class="logo-circle-img" loading="lazy" src="Castle%20Island%20Ventures.jpeg" alt="Castle Island Ventures"><span class="logo-circle-tooltip">Castle Island Ventures</span></span>
           </div>
         </div>
       </div>
@@ -322,10 +395,10 @@
       </div>
     </div>
   </div>
-</div>
+</section>
 
-<div id="experience">
-  <p class="section-dot-label reveal">experience:</p>
+<section id="experience">
+  <h2 class="section-dot-label reveal">experience:</h2>
   <div class="experience-section">
     <div class="exp-list">
 
@@ -390,10 +463,10 @@
 
     </div>
   </div>
-</div>
+</section>
 
-<div id="capabilities">
-  <p class="section-dot-label reveal">capabilities:</p>
+<section id="capabilities">
+  <h2 class="section-dot-label reveal">capabilities:</h2>
   <div class="capabilities-section">
     <div class="cap-grid">
       <div class="cap-cell reveal"><div class="cap-num">01</div><h3 class="cap-title">Product Positioning &amp; Messaging</h3><p class="cap-desc">Turning features into user-facing value propositions. Owning voice and tone across every channel &mdash; website, social, lifecycle, and in-app.</p></div>
@@ -404,10 +477,10 @@
       <div class="cap-cell reveal"><div class="cap-num">06</div><h3 class="cap-title">Cross-functional Collaboration</h3><p class="cap-desc">Connective tissue between product, design and growth. Bringing user insights into product discussions and enabling teams with clear direction.</p></div>
     </div>
   </div>
-</div>
+</section>
 
-<div id="events">
-  <p class="section-dot-label reveal">conferences &amp; events:</p>
+<section id="events">
+  <h2 class="section-dot-label reveal">conferences &amp; events:</h2>
   <div class="events-section">
     <div class="event-list">
       <div class="event-row reveal">
@@ -433,10 +506,10 @@
       </div>
     </div>
   </div>
-</div>
+</section>
 
-<div id="testimonials">
-  <p class="section-dot-label reveal">what people say:</p>
+<section id="testimonials">
+  <h2 class="section-dot-label reveal">what people say:</h2>
   <div class="testimonials-section reveal">
     <div class="t-pair" id="tPair">
       <div class="testimonial-card"><p class="testimonial-quote">&ldquo;Honestly Asymmetry probably has <em>the best comms and social media presence</em> I&rsquo;ve seen from any crypto project. Everytime there&rsquo;s a project looking for feedback I point to Asymmetry and tell them to learn from them. @JZ is killing it.&rdquo;</p></div>
@@ -449,9 +522,9 @@
       <button class="carousel-btn" id="tNext" style="position:static;transform:none;">&rarr;</button>
     </div>
   </div>
-</div>
+</section>
 
-<div id="contact">
+<section id="contact">
   <div class="avail-bar reveal" style="padding-top:3rem;">
     <span class="avail-dot"></span>
     <span class="avail-text">available for new opportunities</span>
@@ -494,14 +567,15 @@ Let&rsquo;s chat. Can you send me your Calendly link to schedule a time?
       <!-- Bottom links bar — 4 links equally spaced -->
       <div class="contact-links-bar">
         <a href="mailto:deployjz@gmail.com" class="contact-link" style="color:var(--muted);"><span class="contact-link-dot"></span>deployjz@gmail.com</a>
-        <a href="https://x.com/whyjz" class="contact-link" target="_blank"><span class="contact-link-dot"></span>x.com/whyjz &nearr;</a>
-        <a href="https://asymmetry.finance" class="contact-link" target="_blank"><span class="contact-link-dot"></span>asymmetry.finance &nearr;</a>
-        <a href="https://docs.asymmetry.finance" class="contact-link" target="_blank"><span class="contact-link-dot"></span>docs.asymmetry.finance &nearr;</a>
+        <a href="https://x.com/whyjz" class="contact-link" target="_blank" rel="noopener noreferrer"><span class="contact-link-dot"></span>x.com/whyjz &nearr;</a>
+        <a href="https://asymmetry.finance" class="contact-link" target="_blank" rel="noopener noreferrer"><span class="contact-link-dot"></span>asymmetry.finance &nearr;</a>
+        <a href="https://docs.asymmetry.finance" class="contact-link" target="_blank" rel="noopener noreferrer"><span class="contact-link-dot"></span>docs.asymmetry.finance &nearr;</a>
       </div>
 
     </div>
   </div>
-</div>
+</section>
+</main>
 
 <footer>
   <span class="footer-logo"><span>.</span>james &mdash; jz</span>
@@ -515,6 +589,13 @@ Let&rsquo;s chat. Can you send me your Calendly link to schedule a time?
 // ── Email copy ──────────────────────────────────────────────────
 function copyEmail(){
   navigator.clipboard.writeText('deployjz@gmail.com').then(()=>{
+    const msg=document.getElementById('emailCopied');
+    msg.classList.add('show');
+    setTimeout(()=>msg.classList.remove('show'),2200);
+  }).catch(()=>{
+    const ta=document.createElement('textarea');
+    ta.value='deployjz@gmail.com';ta.style.position='fixed';ta.style.opacity='0';
+    document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
     const msg=document.getElementById('emailCopied');
     msg.classList.add('show');
     setTimeout(()=>msg.classList.remove('show'),2200);
@@ -621,6 +702,24 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
   pair.addEventListener('mouseleave',()=>{tTimer=setInterval(()=>tGoTo(tCur+1),5000);});
   document.getElementById('tPrev').addEventListener('click',()=>{clearInterval(tTimer);tGoTo(tCur-1);tTimer=setInterval(()=>tGoTo(tCur+1),5000);});
   document.getElementById('tNext').addEventListener('click',()=>{clearInterval(tTimer);tGoTo(tCur+1);tTimer=setInterval(()=>tGoTo(tCur+1),5000);});
+  document.addEventListener('visibilitychange',()=>{
+    if(document.hidden){clearInterval(tTimer);}
+    else{tTimer=setInterval(()=>tGoTo(tCur+1),5000);}
+  });
+})();
+
+// ── Hamburger menu ─────────────────────────────────────────────
+(function(){
+  const btn=document.getElementById('navHamburger');
+  const links=document.getElementById('navLinks');
+  if(!btn||!links)return;
+  btn.addEventListener('click',()=>{
+    btn.classList.toggle('open');
+    links.classList.toggle('open');
+  });
+  links.querySelectorAll('a').forEach(a=>{
+    a.addEventListener('click',()=>{btn.classList.remove('open');links.classList.remove('open');});
+  });
 })();
 
 // ── Selected Work carousel ──────────────────────────────────────
