@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>James — JZ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#f7f0e6;--fg:#2a1f14;--muted:rgba(42,31,20,0.46);--accent:#9d4a22;--border:rgba(42,31,20,0.1);--card:#fffcf7;}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{background-color:var(--bg);background-image:repeating-radial-gradient(circle at 60% 35%,transparent 0,transparent 48px,rgba(42,31,20,0.04) 49px,transparent 50px);color:var(--fg);font-family:'DM Sans',sans-serif;font-weight:300;overflow-x:hidden;cursor:none;}
+    #cur{width:8px;height:8px;background:var(--accent);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s;}
+    #cur-ring{width:32px;height:32px;border:1px solid rgba(157,74,34,0.35);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .25s,height .25s;}
+    body.hover-link #cur{width:48px;height:48px;background:transparent;border:1px solid var(--accent);}
+    body.hover-link #cur-ring{width:0;height:0;}
+    nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:1.6rem 3rem;}
+    nav::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(247,240,230,0.97) 0%,transparent 100%);z-index:-1;pointer-events:none;}
+    .nav-logo{font-family:'Syne',sans-serif;font-size:.78rem;letter-spacing:.18em;color:var(--fg);text-decoration:none;font-weight:600;text-transform:lowercase;}
+    .nav-logo span{color:var(--accent);}
+    .nav-links{display:flex;gap:2.4rem;list-style:none;}
+    .nav-links a{font-size:.82rem;letter-spacing:.12em;color:#7a3518;text-decoration:none;text-transform:lowercase;transition:color .2s;}
+    .nav-links a:hover{color:var(--fg);}
+    .nav-cta{font-family:'Syne',sans-serif;font-size:.81rem;letter-spacing:.12em;text-transform:lowercase;color:var(--card);background:#5f7461;border:none;padding:.625rem 1.5rem;border-radius:2rem;text-decoration:none;transition:opacity .2s;}
+    .nav-cta:hover{opacity:.8;}
+    .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 3rem 4.5rem;position:relative;}
+    .hero-bg-glow{position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse 60% 55% at 75% 20%,rgba(157,74,34,0.07) 0%,transparent 70%);pointer-events:none;}
+    .hero-pre{font-size:.72rem;letter-spacing:.2em;text-transform:lowercase;color:rgba(29,21,9,0.60);font-weight:800;-webkit-text-stroke:0.4px rgba(29,21,9,0.60);margin-bottom:1rem;opacity:0;animation:up .7s .35s forwards;}
+    .hero-headline{font-family:'DM Serif Display',serif;font-size:clamp(3.2rem,8vw,8.5rem);line-height:.96;letter-spacing:-.01em;font-weight:400;opacity:0;animation:up .8s .5s forwards;}
+    .hero-cycle-wrap{display:inline-block;overflow:hidden;vertical-align:bottom;height:1.18em;padding-bottom:.13em;}
+    .hero-cycle{display:inline-block;animation:cycleSlide 12s infinite;}
+    .hero-cycle-inner{display:flex;flex-direction:column;}
+    .hero-cycle-inner span{display:block;color:var(--accent);height:1.18em;line-height:1.05;padding-bottom:.13em;}
+    .hero-sub{display:flex;align-items:flex-end;justify-content:space-between;margin-top:3rem;opacity:0;animation:up .7s .8s forwards;}
+    .hero-desc{font-size:1.45rem;line-height:1.65;color:var(--muted);max-width:560px;}
+    .hero-cta a{font-family:'Syne',sans-serif;font-size:.72rem;letter-spacing:.14em;text-transform:lowercase;color:var(--card);background:var(--accent);padding:.85rem 2rem;text-decoration:none;display:inline-block;transition:background .2s,color .2s,transform .2s;border-radius:2rem;}
+    .hero-cta a:hover{background:var(--fg);color:var(--card);transform:translateY(-2px);}
+    .hero-scroll-line{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:1px;height:70px;background:linear-gradient(to bottom,var(--accent),transparent);animation:fadeScroll 2s 1.5s infinite;opacity:0;}
+    .stats-bar{border-top:1px solid var(--border);border-bottom:1px solid var(--border);display:flex;overflow-x:auto;}
+    .stat-item{flex:1;min-width:140px;padding:1.8rem 1.6rem;border-right:1px solid var(--border);}
+    .stat-item:last-child{border-right:none;}
+    .stat-num{font-family:'DM Serif Display',serif;font-size:clamp(1.6rem,3vw,3.2rem);line-height:1;color:var(--fg);}
+    .stat-num span{color:var(--accent);}
+    .stat-label{font-size:.75rem;letter-spacing:.12em;text-transform:lowercase;color:var(--muted);margin-top:.5rem;}
+    .section-dot-label{font-family:'DM Serif Display',serif;font-size:1.05rem;font-style:italic;letter-spacing:.01em;text-transform:none;color:#5f7461;padding:2rem 3rem .5rem;font-weight:400;text-decoration:none;display:inline-block;}
+    .t-nav{display:flex;align-items:center;justify-content:space-between;margin-top:1.2rem;padding:0 0;}
+    .t-dots-wrap{display:flex;gap:.6rem;}
+    .carousel-section{padding:2rem 0 6rem;}
+    .carousel-stage{position:relative;width:100%;height:600px;display:flex;align-items:center;justify-content:center;perspective:1400px;user-select:none;}
+    .carousel-track{position:relative;width:340px;height:520px;transform-style:preserve-3d;}
+    .c-card{position:absolute;top:0;left:0;width:340px;height:520px;border-radius:8px;overflow:hidden;background:var(--card);display:flex;flex-direction:column;backface-visibility:hidden;transition:transform .65s cubic-bezier(.4,0,.2,1),box-shadow .65s,filter .65s,opacity .65s;cursor:pointer;border:1px solid var(--border);}
+    .c-card.is-active{box-shadow:0 30px 70px rgba(42,31,20,0.15),0 0 0 1px rgba(157,74,34,0.2);}
+    .c-card.is-side{filter:brightness(0.82);}
+    .c-card.is-back{filter:brightness(0.5);}
+    .c-card-img{flex:0 0 52%;position:relative;overflow:hidden;}
+    .c-card-img img,.c-card-img video{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;}
+    .c-badge{position:absolute;top:1rem;left:1rem;font-family:'Syne',sans-serif;font-size:.62rem;letter-spacing:.12em;color:var(--accent);background:rgba(247,240,230,0.92);border:1px solid rgba(157,74,34,0.2);padding:.35rem 1rem;border-radius:2rem;z-index:2;}
+    .c-card-body{flex:1;padding:1.8rem;display:flex;flex-direction:column;gap:.55rem;}
+    .c-tags{display:flex;gap:.5rem;flex-wrap:wrap;}
+    .c-tag{font-size:.58rem;letter-spacing:.1em;text-transform:lowercase;color:var(--muted);border:1px solid var(--border);padding:.18rem .6rem;border-radius:2rem;}
+    .c-title{font-family:'DM Serif Display',serif;font-size:1.2rem;font-weight:400;line-height:1.25;color:var(--fg);}
+    .c-desc{font-size:.78rem;line-height:1.6;color:var(--muted);}
+    .c-link{font-family:'Syne',sans-serif;font-size:.65rem;letter-spacing:.12em;text-transform:lowercase;color:var(--accent);margin-top:auto;}
+    .carousel-btn{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;background:rgba(42,31,20,0.05);border:1px solid var(--border);color:var(--fg);font-size:1.1rem;display:flex;align-items:center;justify-content:center;cursor:none;transition:background .2s,border-color .2s;z-index:10;}
+    .carousel-btn:hover{background:rgba(157,74,34,0.1);border-color:rgba(157,74,34,0.3);}
+    .carousel-btn-prev{left:calc(50% - 260px);}
+    .carousel-btn-next{right:calc(50% - 260px);}
+    .carousel-dots{display:flex;justify-content:center;gap:.6rem;padding-top:1rem;}
+    .c-dot{width:5px;height:5px;border-radius:50%;background:var(--border);border:none;cursor:none;transition:background .2s,transform .2s;}
+    .c-dot.active{background:var(--accent);transform:scale(1.4);}
+    .about-section{padding:3rem 3rem 7rem;max-width:960px;}
+    .big-quote{font-family:'DM Serif Display',serif;font-size:clamp(1.4rem,2.8vw,2.1rem);line-height:1.45;font-weight:400;color:var(--fg);}
+    .big-quote em{font-style:italic;color:var(--accent);}
+    .about-details{margin-top:2.5rem;display:flex;flex-direction:column;gap:1.2rem;}
+    .about-row{display:flex;gap:2rem;align-items:center;padding-bottom:1.2rem;border-bottom:1px solid var(--border);overflow:visible;}
+    .about-row:last-child{border-bottom:none;}
+    .about-row-val{font-size:.82rem;color:var(--fg);line-height:1.7;}
+    .pill{display:inline-block;font-size:.58rem;letter-spacing:.1em;text-transform:lowercase;color:var(--accent);border:1px solid rgba(157,74,34,0.3);padding:.15rem .65rem;border-radius:2rem;margin-left:.4rem;}
+    .experience-section{padding:1rem 3rem 5rem;max-width:1100px;}
+    .exp-list{display:flex;flex-direction:column;}
+    .exp-row{display:grid;grid-template-columns:160px 1fr auto;gap:2rem;padding:2.5rem 0;border-bottom:1px solid var(--border);align-items:start;}
+    .exp-row:last-child{border-bottom:none;}
+    .exp-period{font-family:'Syne',sans-serif;font-size:.65rem;letter-spacing:.12em;text-transform:lowercase;color:var(--muted);padding-top:.2rem;}
+    .exp-role{font-family:'DM Serif Display',serif;font-size:1.25rem;font-weight:400;margin-bottom:.3rem;}
+    .exp-company{font-size:.75rem;letter-spacing:.06em;color:var(--accent);margin-bottom:.8rem;font-family:'Syne',sans-serif;}
+    .exp-block{font-size:.82rem;line-height:1.75;color:var(--muted);margin-bottom:.75rem;}
+    .exp-block:last-child{margin-bottom:0;}
+    .exp-hl{color:var(--accent);font-weight:700;font-style:normal;}
+    .exp-tags{display:flex;flex-direction:column;gap:.4rem;align-items:flex-end;}
+    .exp-tag{font-size:.58rem;letter-spacing:.1em;text-transform:lowercase;color:var(--muted);border:1px solid var(--border);padding:.2rem .7rem;border-radius:2rem;white-space:nowrap;transition:color .2s,border-color .2s;}
+    .exp-tag:hover{color:var(--accent);border-color:rgba(157,74,34,0.4);}
+    .capabilities-section{padding:1rem 3rem 6rem;}
+    .cap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);}
+    .cap-cell{background:var(--bg);padding:2.5rem;transition:background .3s;}
+    .cap-cell:hover{background:var(--card);}
+    .cap-num{font-family:'Syne',sans-serif;font-size:.6rem;letter-spacing:.16em;color:var(--accent);margin-bottom:1.2rem;}
+    .cap-title{font-family:'DM Serif Display',serif;font-size:1.3rem;font-weight:700;margin-bottom:.8rem;line-height:1.25;color:var(--accent);text-decoration:none;}
+    .cap-desc{font-size:.8rem;line-height:1.65;color:var(--muted);}
+    .exp-grid-cell{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:.9rem 1rem;font-size:.78rem;line-height:1.6;color:var(--muted);transition:background .25s,border-color .25s,color .2s;}
+    .exp-grid-cell:hover{background:var(--bg);border-color:rgba(157,74,34,0.35);color:var(--fg);}
+    .event-row{display:grid;grid-template-columns:130px 1fr;gap:2rem;padding:1.8rem 0;border-bottom:1px solid var(--border);align-items:center;}
+    .events-section{padding:1rem 3rem 6rem;max-width:900px;}
+    .event-list{display:flex;flex-direction:column;}
+    .event-row:last-child{border-bottom:none;}
+    .event-year{font-family:'Syne',sans-serif;font-size:.62rem;letter-spacing:.14em;text-transform:lowercase;color:var(--muted);}
+    .event-name{font-family:'DM Serif Display',serif;font-size:1.1rem;font-weight:400;}
+    .event-loc{font-size:.72rem;color:var(--muted);margin-top:.2rem;}
+    .testimonials-section{padding:1rem 3rem 2rem;}
+    .t-pair{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;transition:opacity .3s ease;}
+    .testimonial-card{background:var(--card);border-radius:4px;padding:2rem;border:1px solid var(--border);transition:border-color .3s;}
+    .testimonial-card:hover{border-color:rgba(157,74,34,0.3);}
+    .testimonial-quote{font-family:'DM Serif Display',serif;font-size:1.05rem;line-height:1.55;font-weight:400;color:var(--fg);}
+    .testimonial-quote em{font-style:italic;color:var(--accent);}
+    .refs-note{padding:.8rem 3rem 4rem;font-family:'DM Serif Display',serif;font-size:.85rem;font-style:italic;color:var(--muted);}
+    .contact-section{padding:3rem 3rem 3rem;}
+    .contact-big{font-family:'DM Serif Display',serif;font-size:clamp(1.8rem,4vw,3.2rem);line-height:1.3;font-weight:400;max-width:820px;margin-bottom:4rem;}
+    .contact-big em{font-style:italic;color:var(--accent);}
+    .contact-center{display:flex;flex-direction:column;align-items:center;gap:2.5rem;}
+    .email-sparkle-wrap{position:relative;display:inline-flex;align-items:center;justify-content:center;}
+    /* SVG sparkle stars */
+    .sparkle-star{position:absolute;pointer-events:none;opacity:0;}
+    .sparkle-star svg{display:block;}
+    .ss1{top:-18px;left:-22px;animation:starTwinkle 2.4s 0s infinite;}
+    .ss2{top:-22px;right:-18px;animation:starTwinkle 2.4s .6s infinite;}
+    .ss3{bottom:-18px;left:-18px;animation:starTwinkle 2.4s 1.2s infinite;}
+    .ss4{bottom:-22px;right:-22px;animation:starTwinkle 2.4s 1.8s infinite;}
+    .ss5{top:-14px;left:50%;transform:translateX(-50%);animation:starTwinkle 2.4s .35s infinite;}
+    .email-address-display{font-family:'DM Serif Display',serif;font-size:clamp(1.1rem,2.5vw,1.6rem);color:#5f7461;letter-spacing:.01em;transition:color .25s;cursor:default;padding:.4rem .8rem;border-radius:4px;position:relative;}
+    .email-address-display:hover{color:#4a5c4c;}
+    .email-address-display::after{content:'click to copy';position:absolute;bottom:-1.4rem;left:50%;transform:translateX(-50%);font-family:'Syne',sans-serif;font-size:.55rem;letter-spacing:.14em;text-transform:lowercase;color:var(--muted);opacity:0;transition:opacity .2s;white-space:nowrap;}
+    .email-address-display:hover::after{opacity:1;}
+    .email-copied-msg{font-family:'Syne',sans-serif;font-size:.62rem;letter-spacing:.18em;text-transform:lowercase;color:var(--accent);opacity:0;transition:opacity .3s;height:1rem;text-align:center;}
+    .email-copied-msg.show{opacity:1;}
+    .email-widget{background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;width:100%;max-width:520px;}
+    .ew-header{background:var(--bg);border-bottom:1px solid var(--border);padding:.8rem 1.2rem;display:flex;align-items:center;gap:.6rem;}
+    .ew-dot{width:10px;height:10px;border-radius:50%;background:var(--border);}
+    .ew-title{font-family:'Syne',sans-serif;font-size:.65rem;letter-spacing:.1em;color:var(--muted);text-transform:lowercase;flex:1;text-align:center;}
+    .ew-body{padding:1.2rem;}
+    .ew-field{margin-bottom:.8rem;}
+    .ew-label{font-family:'Syne',sans-serif;font-size:.58rem;letter-spacing:.12em;text-transform:lowercase;color:var(--muted);display:block;margin-bottom:.3rem;}
+    .ew-val{font-size:.78rem;color:var(--fg);line-height:1.5;}
+    .ew-divider{height:1px;background:var(--border);margin:.8rem 0;}
+    .ew-text{font-size:.78rem;color:var(--muted);line-height:1.7;white-space:pre-line;}
+    .ew-send{display:block;width:100%;margin-top:1.2rem;padding:.75rem;background:var(--accent);color:var(--card);font-family:'Syne',sans-serif;font-size:.7rem;letter-spacing:.12em;text-transform:lowercase;text-align:center;text-decoration:none;border-radius:4px;transition:opacity .2s;}
+    .ew-send:hover{opacity:.85;}
+    /* Bottom links bar */
+    .contact-links-bar{width:100%;padding:1rem 0 0;display:flex;justify-content:space-around;align-items:center;flex-wrap:wrap;gap:1rem;}
+    .contact-link{display:flex;align-items:center;gap:.7rem;text-decoration:none;color:var(--muted);font-size:.78rem;transition:color .2s;}
+    .contact-link:hover{color:var(--fg);}
+    .contact-link-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0;}
+    .avail-bar{padding:.4rem 3rem 0;display:inline-flex;align-items:center;gap:.6rem;}
+    .avail-dot{width:7px;height:7px;border-radius:50%;background:#a3e635;animation:pulseGreen 2.5s infinite;flex-shrink:0;}
+    .avail-text{font-family:'DM Serif Display',serif;font-size:1.05rem;font-style:italic;letter-spacing:.01em;color:#5f7461;font-weight:400;text-decoration:none;}
+    /* Logo carousel */
+    .logo-carousel-wrap{flex:1;overflow:hidden;position:relative;height:5rem;display:flex;align-items:center;}
+    .logo-carousel-wrap::before,.logo-carousel-wrap::after{content:'';position:absolute;top:0;bottom:0;width:40px;z-index:2;pointer-events:none;}
+    .logo-carousel-wrap::before{left:0;background:linear-gradient(to right,var(--bg),transparent);}
+    .logo-carousel-wrap::after{right:0;background:linear-gradient(to left,var(--bg),transparent);}
+    .logo-carousel-track{display:flex;gap:.8rem;align-items:center;white-space:nowrap;animation:logoScroll 40s linear infinite;width:max-content;}
+    .logo-circle{width:52px;height:52px;border-radius:50%;background:var(--card);border:1px solid var(--border);display:inline-flex;align-items:center;justify-content:center;cursor:default;transition:border-color .2s,box-shadow .2s;position:relative;flex-shrink:0;vertical-align:middle;}
+    .logo-circle:hover{border-color:rgba(157,74,34,0.4);box-shadow:0 2px 12px rgba(42,31,20,0.1);}
+    .logo-circle-img{width:100%;height:100%;object-fit:cover;display:block;border-radius:50%;}
+    .logo-circle-initials{font-family:'Syne',sans-serif;font-size:.48rem;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);font-weight:700;text-align:center;line-height:1.2;user-select:none;padding:2px;}
+    .logo-circle-tooltip{display:none;}
+    .about-row-label{font-family:'Syne',sans-serif;font-size:.62rem;letter-spacing:.14em;text-transform:lowercase;color:var(--muted);flex:0 0 110px;position:relative;z-index:30;background:var(--bg);}
+    @keyframes logoScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+    footer{padding:2rem 3rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+    .footer-logo{font-family:'Syne',sans-serif;font-size:.72rem;letter-spacing:.16em;text-transform:lowercase;color:var(--muted);}
+    .footer-logo span{color:var(--accent);}
+    .footer-links{display:flex;gap:2rem;}
+    .footer-links a{font-size:.65rem;letter-spacing:.1em;text-transform:lowercase;color:var(--muted);text-decoration:none;transition:color .2s;}
+    .footer-links a:hover{color:var(--fg);}
+    .claude-credit{position:fixed;bottom:1.2rem;right:1.6rem;font-family:'Syne',sans-serif;font-size:.58rem;letter-spacing:.1em;color:rgba(42,31,20,0.28);text-transform:lowercase;z-index:100;pointer-events:none;}
+    @keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(157,74,34,0.4)}50%{box-shadow:0 0 0 6px rgba(157,74,34,0)}}
+    @keyframes pulseGreen{0%,100%{box-shadow:0 0 0 0 rgba(163,230,53,0.5)}50%{box-shadow:0 0 0 6px rgba(163,230,53,0)}}
+    @keyframes twinkle{0%,100%{opacity:0;transform:scale(0.5)}50%{opacity:1;transform:scale(1)}}
+    @keyframes starTwinkle{0%,100%{opacity:0;transform:scale(0.3) rotate(0deg)}40%,60%{opacity:1;transform:scale(1) rotate(20deg)}}
+    @keyframes cycleSlide{0%,22%{transform:translateY(0)}25%,47%{transform:translateY(-1.18em)}50%,72%{transform:translateY(-2.36em)}75%,97%{transform:translateY(-3.54em)}100%{transform:translateY(-4.72em)}}
+    @keyframes fadeScroll{0%,100%{opacity:0;transform:translateX(-50%) translateY(-8px)}50%{opacity:1;transform:translateX(-50%) translateY(0)}}
+    .reveal{opacity:0;transform:translateY(22px);transition:opacity .65s ease,transform .65s ease;}
+    .reveal.on{opacity:1;transform:translateY(0);}
+  </style>
+</head>
+<body>
+<div id="cur"></div>
+<div id="cur-ring"></div>
+<div class="claude-credit">built with my co-worker <em>c. laude</em></div>
+
+<nav>
+  <a class="nav-logo" href="#"><span>.</span>james &mdash; jz</a>
+  <ul class="nav-links">
+    <li><a href="#work">work</a></li>
+    <li><a href="#about">about</a></li>
+    <li><a href="#experience">experience</a></li>
+    <li><a href="#capabilities">capabilities</a></li>
+    <li><a href="#testimonials">references</a></li>
+    <li><a href="#contact">contact</a></li>
+  </ul>
+  <div><a class="nav-cta" href="mailto:deployjz@gmail.com">get in touch &darr;</a></div>
+</nav>
+
+<div class="hero">
+  <div class="hero-bg-glow"></div>
+  <p class="hero-pre">marketing &middot; strategy &middot; growth &middot; communications</p>
+  <h1 class="hero-headline">
+    crafting crypto<br>brands that feel
+    <div class="hero-cycle-wrap"><div class="hero-cycle"><div class="hero-cycle-inner">
+      <span>alive.</span><span>distinct.</span><span>tailored.</span><span>unstoppable.</span><span>alive.</span>
+    </div></div></div>
+  </h1>
+  <div class="hero-sub">
+    <p class="hero-desc">
+      <strong style="color:var(--fg);font-weight:400;font-family:'DM Serif Display',serif;font-style:italic;">&ldquo;JZ is our non-technical swiss army knife.&rdquo;</strong><br>
+      <span style="font-size:1.16rem;">head of marketing &amp; comms, co-lead of strategy &amp; ops at asymmetry finance (stablecoins &amp; defi) &mdash; co-built a brand from zero to $220m FDV with a team of six.</span>
+
+    </p>
+    <div class="hero-cta"><a href="#work">see my work &darr;</a></div>
+  </div>
+  <div class="hero-scroll-line"></div>
+</div>
+
+<div class="stats-bar reveal">
+  <div class="stat-item"><div class="stat-num">$220<span>M</span></div><div class="stat-label">peak FDV achieved &mdash; sole marketing &amp; comms hire</div></div>
+  <div class="stat-item"><div class="stat-num">$35<span>M</span></div><div class="stat-label">peak TVL achieved &mdash; sole marketing &amp; comms hire</div></div>
+  <div class="stat-item"><div class="stat-num">$3<span>M</span></div><div class="stat-label">public raise led &mdash; sold out in 36 hours</div></div>
+  <div class="stat-item"><div class="stat-num">$3<span>M</span></div><div class="stat-label">private funding of Asymmetry &mdash; backers incl. Fidelity Investments</div></div>
+  <div class="stat-item"><div class="stat-num">5.7<span>M+</span></div><div class="stat-label">views on all X content &mdash; 1 year</div></div>
+</div>
+
+<div id="work">
+  <p class="section-dot-label reveal">selected work:</p>
+  <div class="carousel-section">
+    <div class="carousel-stage" id="cStage">
+      <div class="carousel-track" id="carouselTrack">
+        <div class="c-card" data-href="https://x.com/asymmetryfin/status/1850163779490963805">
+          <div class="c-card-img"><img src="fjord.gif" alt="Fjord public raise"></div>
+          <div class="c-card-body"><div class="c-tags"><span class="c-tag">GTM &middot; Campaign</span></div><h3 class="c-title">Led a $3M public raise &mdash; sold out in 36 hours</h3><p class="c-desc">End-to-end campaign strategy, narrative, and launch execution that drove $3M in record time on the Fjord Foundry platform.</p><span class="c-link">view post &nearr;</span></div>
+        </div>
+        <div class="c-card" data-href="https://x.com/asymmetryfin/status/1952421605822562693">
+          <div class="c-card-img"><img src="usdaf_live_compressed.gif" alt="USDaf is live"></div>
+          <div class="c-card-body"><div class="c-tags"><span class="c-tag">Product Launch &middot; Video</span></div><h3 class="c-title">USDaf is live &mdash; professional announcement comms</h3><p class="c-desc">Scripted, produced and published all professional content posts across all platforms for Asymmetry.</p><span class="c-link">view post &nearr;</span></div>
+        </div>
+        <div class="c-card" data-href="https://x.com/asymmetryfin/status/1925948874419581044">
+          <div class="c-card-img"><img src="family_guy_compressed.gif" alt="Ideating creative content"></div>
+          <div class="c-card-body"><div class="c-tags"><span class="c-tag">Creative &middot; Viral</span></div><h3 class="c-title">Ideating creative content &mdash; consistently CT viral</h3><p class="c-desc">CT-native creative &mdash; striking the balance between entertainment and announcement.</p><span class="c-link">view post &nearr;</span></div>
+        </div>
+        <div class="c-card" data-href="https://www.youtube.com/@asymmetryfin">
+          <div class="c-card-img"><img src="youtube.gif" alt="YouTube educational series"></div>
+          <div class="c-card-body"><div class="c-tags"><span class="c-tag">Education &middot; Onboarding</span></div><h3 class="c-title">360&deg; educational video series &mdash; YouTube and X</h3><p class="c-desc">Scripted, produced and edited how-to guides turning complex DeFi into accessible onboarding content.</p><span class="c-link">view channel &nearr;</span></div>
+        </div>
+        <div class="c-card" data-href="https://docs.asymmetry.finance">
+          <div class="c-card-img"><img src="docs.gif" alt="Asymmetry documentation"></div>
+          <div class="c-card-body"><div class="c-tags"><span class="c-tag">Docs &middot; UX Writing</span></div><h3 class="c-title">Asymmetry&rsquo;s docs &mdash; technical writing accessible to all levels</h3><p class="c-desc">Co-author of all protocol documentation, FAQs, and user guides &mdash; engineering into clear user-facing language.</p><span class="c-link">read docs &nearr;</span></div>
+        </div>
+        <div class="c-card" data-href="https://x.com/asymmetryfin/status/1887568114168308189">
+          <div class="c-card-img"><img src="declassified.png" alt="Declassified viral post"></div>
+          <div class="c-card-body"><div class="c-tags"><span class="c-tag">X &middot; Narrative</span></div><h3 class="c-title">Declassified files &mdash; crafting a unique brand identity</h3><p class="c-desc">Cleverly tapping into existing trends, narratives, and cultural moments to amplify brand reach.</p><span class="c-link">view post &nearr;</span></div>
+        </div>
+        <div class="c-card" data-href="https://asymmetry.finance">
+          <div class="c-card-img"><img src="gem rush.gif" alt="The Gem Rush"></div>
+          <div class="c-card-body"><div class="c-tags"><span class="c-tag">Product &middot; Strategy</span></div><h3 class="c-title">The Gem Rush &mdash; building an incentive program from scratch</h3><p class="c-desc">Co-created and deployed our milestone-based incentive program &mdash; Asymmetry&rsquo;s in-house designed &lsquo;Gem Rush&rsquo; points system.</p><span class="c-link">learn more &nearr;</span></div>
+        </div>
+      </div>
+      <button class="carousel-btn carousel-btn-prev" id="cPrev">&larr;</button>
+      <button class="carousel-btn carousel-btn-next" id="cNext">&rarr;</button>
+    </div>
+    <div class="carousel-dots" id="cDots"></div>
+  </div>
+</div>
+
+<div id="about">
+  <p class="section-dot-label reveal">about:</p>
+  <div class="about-section reveal">
+    <p class="big-quote">i work at the intersection of <em>growth strategy</em>, <em>product marketing</em>, and <em>brand communication</em><span style="color:var(--accent);">.</span> a deep understanding and experience of our niche world,<br><span style="color:var(--accent);"> with proven results.</span></p>
+    <div class="about-details">
+      <!-- Worked with carousel — moved above specialisation -->
+      <div class="about-row" style="align-items:center;position:relative;z-index:10;overflow:visible;">
+        <span class="about-row-label">worked with</span>
+        <div class="logo-carousel-wrap">
+          <div class="logo-carousel-track" id="logoTrack">
+            <span class="logo-circle"><img class="logo-circle-img" src="Chainlink.png" alt="Chainlink"><span class="logo-circle-tooltip">Chainlink</span></span>
+            <span class="logo-circle"><img class="logo-circle-img" src="Curve.png" alt="Curve"><span class="logo-circle-tooltip">Curve</span></span>
+            <span class="logo-circle"><img class="logo-circle-img" src="Frax.png" alt="Frax"><span class="logo-circle-tooltip">Frax</span></span>
+            <span class="logo-circle"><img class="logo-circle-img" src="Pendle.png" alt="Pendle"><span class="logo-circle-tooltip">Pendle</span></span>
+            <span class="logo-circle"><img class="logo-circle-img" src="Yearn.png" alt="Yearn"><span class="logo-circle-tooltip">Yearn</span></span>
+            <span class="logo-circle"><img class="logo-circle-img" src="Convex.png" alt="Convex"><span class="logo-circle-tooltip">Convex</span></span>
+            <span class="logo-circle"><img class="logo-circle-img" src="Euler.png" alt="Euler"><span class="logo-circle-tooltip">Euler</span></span>
+            <span class="logo-circle"><img class="logo-circle-img" src="Stargate.png" alt="Stargate"><span class="logo-circle-tooltip">Stargate</span></span>
+            <span class="logo-circle"><img class="logo-circle-img" src="Liquity.png" alt="Liquity"><span class="logo-circle-tooltip">Liquity</span></span>
+            <span class="logo-circle"><img class="logo-circle-img" src="Binance Wallet.png" alt="Binance Wallet"><span class="logo-circle-tooltip">Binance Wallet</span></span>
+            <span class="logo-circle"><img class="logo-circle-img" src="Base.png" alt="Base"><span class="logo-circle-tooltip">Base</span></span>
+            <span class="logo-circle"><img class="logo-circle-img" src="Aerodrome.svg" alt="Aerodrome"><span class="logo-circle-tooltip">Aerodrome</span></span>
+            <span class="logo-circle"><img class="logo-circle-img" src="CoW Swap.png" alt="CoW Swap"><span class="logo-circle-tooltip">CoW Swap</span></span>
+            <span class="logo-circle"><img class="logo-circle-img" src="Pyth.png" alt="Pyth"><span class="logo-circle-tooltip">Pyth</span></span>
+            <span class="logo-circle"><img class="logo-circle-img" src="StakeDAO.png" alt="StakeDAO"><span class="logo-circle-tooltip">StakeDAO</span></span>
+            <span class="logo-circle"><img class="logo-circle-img" src="Threshold.png" alt="Threshold"><span class="logo-circle-tooltip">Threshold</span></span>
+            <span class="logo-circle"><img class="logo-circle-img" src="Swell.png" alt="Swell"><span class="logo-circle-tooltip">Swell</span></span>
+            <span class="logo-circle"><img class="logo-circle-img" src="Ampleforth.jpeg" alt="Ampleforth"><span class="logo-circle-tooltip">Ampleforth</span></span>
+            <span class="logo-circle"><img class="logo-circle-img" src="Spectra.jpg" alt="Spectra"><span class="logo-circle-tooltip">Spectra</span></span>
+            <span class="logo-circle"><img class="logo-circle-img" src="Cantina.jpg" alt="Cantina"><span class="logo-circle-tooltip">Cantina</span></span>
+            <span class="logo-circle"><img class="logo-circle-img" src="Pluno.png" alt="Pluno"><span class="logo-circle-tooltip">Pluno</span></span>
+            <span class="logo-circle"><img class="logo-circle-img" src="Mario Nawfal.jpg" alt="Mario Nawfal"><span class="logo-circle-tooltip">Mario Nawfal</span></span>
+            <span class="logo-circle"><img class="logo-circle-img" src="Elon Trades.jpg" alt="ElonTrades"><span class="logo-circle-tooltip">ElonTrades</span></span>
+            <span class="logo-circle"><img class="logo-circle-img" src="Castle Island Ventures.jpeg" alt="Castle Island Ventures"><span class="logo-circle-tooltip">Castle Island Ventures</span></span>
+          </div>
+        </div>
+      </div>
+      <div class="about-row">
+        <span class="about-row-label">specialisation</span>
+        <span class="about-row-val">Product Marketing &middot; Strategy &middot; Growth &middot; Brand Identity &middot; Communications</span>
+      </div>
+      <div class="about-row">
+        <span class="about-row-label">background</span>
+        <span class="about-row-val">Crypto-native &middot; DeFi &middot; AI-native (Claude speciality) &middot; Henley Business School alumni</span>
+      </div>
+      <div class="about-row" style="border-bottom:none;">
+        <span class="about-row-label">known for</span>
+        <span class="about-row-val">Co-built a brand to $220M FDV from zero <span class="pill">6-man team</span></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="experience">
+  <p class="section-dot-label reveal">experience:</p>
+  <div class="experience-section">
+    <div class="exp-list">
+
+      <div class="exp-row reveal">
+        <span class="exp-period">2023 &ndash; present</span>
+        <div>
+          <div class="exp-role">Head of Marketing, Comms &amp; Co-Lead of Strategy &amp; Operations</div>
+          <div class="exp-company">Asymmetry Finance &middot; Full-time</div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin:.8rem 0 .75rem;">
+            <div class="exp-grid-cell"><span class="exp-hl">Sole marketing and comms hire</span> across a 6-man team &mdash; while reaching deep into strategy and operations.</div>
+            <div class="exp-grid-cell">Led a $3M public raise that <span class="exp-hl">sold out in 36 hours</span> and drove Asymmetry to a <span class="exp-hl">$220M FDV</span> and $35M peak TVL.</div>
+            <div class="exp-grid-cell">Built every channel from zero — X to <span class="exp-hl">30k followers</span>, Discord to <span class="exp-hl">3k</span>, Telegram to <span class="exp-hl">2k+</span>.</div>
+            <div class="exp-grid-cell">Distinct brand identity — <span class="exp-hl">polished product</span> comms balanced with <span class="exp-hl">CT-native creative</span>. Every post across all channels.</div>
+            <div class="exp-grid-cell">Scripted, produced &amp; published a <span class="exp-hl">full educational video series</span> on YouTube.</div>
+            <div class="exp-grid-cell">All protocol <span class="exp-hl">docs</span>, Medium <span class="exp-hl">articles</span>, website copy &amp; announcements. Weekly AMAs for 1+ year.</div>
+            <div class="exp-grid-cell"><span class="exp-hl">KOL management</span> — ElonTrades, Mario Nawfal. External contractor management.</div>
+            <div class="exp-grid-cell">Face-to-face <span class="exp-hl">VC &amp; partner meetings</span>. Represented at ETHDenver, ETHCC Paris, Crypto Valley Switzerland.</div>
+            <div class="exp-grid-cell"><span class="exp-hl">AI-support bots</span> for users. Trusted <span class="exp-hl">multi-sig signee</span> for core protocol operations.</div>
+          </div>
+        </div>
+        <div class="exp-tags">
+          <span class="exp-tag">product marketing</span>
+          <span class="exp-tag">strategy</span>
+          <span class="exp-tag">brand direction</span>
+          <span class="exp-tag">comms &amp; socials</span>
+          <span class="exp-tag">docs &amp; copywriting</span>
+          <span class="exp-tag">video production</span>
+          <span class="exp-tag">AI tooling</span>
+          <span class="exp-tag">KOL management</span>
+          <span class="exp-tag">contractor mgmt</span>
+          <span class="exp-tag">day-to-day ops</span>
+          <span class="exp-tag">multi-sig signee</span>
+        </div>
+      </div>
+
+      <div class="exp-row reveal">
+        <span class="exp-period"></span>
+        <div>
+          <div class="exp-role">Bachelor&rsquo;s Degree of Business and Marketing</div>
+          <div class="exp-company">Henley Business School, University of Reading, UK</div>
+          <div style="display:flex;flex-direction:column;gap:.55rem;margin-top:.4rem;">
+            <div style="display:flex;gap:.75rem;align-items:flex-start;"><span style="width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:.5rem;display:inline-block;"></span><p class="exp-block" style="margin:0;">First Class Honours from Henley Business School &mdash; US equivalent of summa cum laude.</p></div>
+            <div style="display:flex;gap:.75rem;align-items:flex-start;"><span style="width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:.5rem;display:inline-block;"></span><p class="exp-block" style="margin:0;">President of Reading University&rsquo;s Motorsport Society.</p></div>
+          </div>
+        </div>
+        <div class="exp-tags">
+        </div>
+      </div>
+
+      <div class="exp-row reveal">
+        <span class="exp-period"></span>
+        <div>
+          <div class="exp-role">Colorado State University</div>
+          <div class="exp-company">Fort Collins, Colorado, United States</div>
+          <div style="display:flex;flex-direction:column;gap:.55rem;margin-top:.4rem;">
+            <div style="display:flex;gap:.75rem;align-items:flex-start;"><span style="width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:.5rem;display:inline-block;"></span><p class="exp-block" style="margin:0;">Selected by the University of Reading from hundreds of applicants for the only position to study abroad at Colorado State University.</p></div>
+            <div style="display:flex;gap:.75rem;align-items:flex-start;"><span style="width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:.5rem;display:inline-block;"></span><p class="exp-block" style="margin:0;">Pitched an entrepreneurial start-up and research on energy-producing fire exit doors to leading scholars and VCs at Colorado State&rsquo;s annual &lsquo;Demo Day&rsquo;.</p></div>
+          </div>
+        </div>
+        <div class="exp-tags"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div id="capabilities">
+  <p class="section-dot-label reveal">capabilities:</p>
+  <div class="capabilities-section">
+    <div class="cap-grid">
+      <div class="cap-cell reveal"><div class="cap-num">01</div><h3 class="cap-title">Product Positioning &amp; Messaging</h3><p class="cap-desc">Turning features into user-facing value propositions. Owning voice and tone across every channel &mdash; website, social, lifecycle, and in-app.</p></div>
+      <div class="cap-cell reveal"><div class="cap-num">02</div><h3 class="cap-title">Strategy and Direction</h3><p class="cap-desc">Owning launch narratives, timelines and cross-channel asset coordination. Proven track record: $3M raise, sold out in 36 hours.</p></div>
+      <div class="cap-cell reveal"><div class="cap-num">03</div><h3 class="cap-title">Educational &amp; Onboarding Content</h3><p class="cap-desc">360&deg; production of tutorials, explainers and walkthroughs. Scripted and produced an entire YouTube educational series from concept to final cut.</p></div>
+      <div class="cap-cell reveal"><div class="cap-num">04</div><h3 class="cap-title">Shaping Brand Identity</h3><p class="cap-desc">Cultivating communities that feel alive, intimately understanding the audience, demands, and niches that make a 6-man team feel like 20.</p></div>
+      <div class="cap-cell reveal"><div class="cap-num">05</div><h3 class="cap-title">Creative Direction &amp; Viral Content</h3><p class="cap-desc">Ideating and producing CT-native video and image content &mdash; from polished product announcements to cultural creatives with real results.</p></div>
+      <div class="cap-cell reveal"><div class="cap-num">06</div><h3 class="cap-title">Cross-functional Collaboration</h3><p class="cap-desc">Connective tissue between product, design and growth. Bringing user insights into product discussions and enabling teams with clear direction.</p></div>
+    </div>
+  </div>
+</div>
+
+<div id="events">
+  <p class="section-dot-label reveal">conferences &amp; events:</p>
+  <div class="events-section">
+    <div class="event-list">
+      <div class="event-row reveal">
+        <div class="event-year" style="position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;border-radius:6px;min-height:3.5rem;padding:.3rem .6rem;text-align:center;">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;width:100%;height:100%;opacity:0.22;display:block;"><rect width="1" height="2" fill="#002395"/><rect x="1" width="1" height="2" fill="#fff"/><rect x="2" width="1" height="2" fill="#ED2939"/></svg>
+          <span style="position:relative;z-index:1;font-family:'Syne',sans-serif;font-size:.62rem;letter-spacing:.14em;text-transform:lowercase;color:var(--fg);font-weight:600;">paris, france</span>
+        </div>
+        <div><div class="event-name">ETHCC &mdash; Ethereum Community Conference</div><div class="event-loc">Represented Asymmetry Finance &middot; DeFi ecosystem engagement</div></div>
+      </div>
+      <div class="event-row reveal">
+        <div class="event-year" style="position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;border-radius:6px;min-height:3.5rem;padding:.3rem .6rem;text-align:center;">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19 10" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;width:100%;height:100%;opacity:0.22;display:block;"><rect width="19" height="10" fill="#B22234"/><rect y="1" width="19" height="1" fill="#fff"/><rect y="3" width="19" height="1" fill="#fff"/><rect y="5" width="19" height="1" fill="#fff"/><rect y="7" width="19" height="1" fill="#fff"/><rect y="9" width="19" height="1" fill="#fff"/><rect width="7.6" height="5.4" fill="#3C3B6E"/></svg>
+          <span style="position:relative;z-index:1;font-family:'Syne',sans-serif;font-size:.62rem;letter-spacing:.14em;text-transform:lowercase;color:var(--fg);font-weight:600;">denver, colorado</span>
+        </div>
+        <div><div class="event-name">ETHDenver</div><div class="event-loc">Represented Asymmetry Finance &middot; DeFi ecosystem engagement</div></div>
+      </div>
+      <div class="event-row reveal">
+        <div class="event-year" style="position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;border-radius:6px;min-height:3.5rem;padding:.3rem .6rem;text-align:center;">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;width:100%;height:100%;opacity:0.22;display:block;"><rect width="32" height="32" fill="#FF0000"/><rect x="13" y="6" width="6" height="20" fill="#fff"/><rect x="6" y="13" width="20" height="6" fill="#fff"/></svg>
+          <span style="position:relative;z-index:1;font-family:'Syne',sans-serif;font-size:.62rem;letter-spacing:.14em;text-transform:lowercase;color:var(--fg);font-weight:600;">zug, switzerland</span>
+        </div>
+        <div><div class="event-name">Crypto Valley Conference</div><div class="event-loc">Represented Asymmetry Finance &middot; Europe&rsquo;s leading crypto finance summit</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="testimonials">
+  <p class="section-dot-label reveal">what people say:</p>
+  <div class="testimonials-section reveal">
+    <div class="t-pair" id="tPair">
+      <div class="testimonial-card"><p class="testimonial-quote">&ldquo;Honestly Asymmetry probably has <em>the best comms and social media presence</em> I&rsquo;ve seen from any crypto project. Everytime there&rsquo;s a project looking for feedback I point to Asymmetry and tell them to learn from them. @JZ is killing it.&rdquo;</p></div>
+      <div class="testimonial-card"><p class="testimonial-quote">&ldquo;I have no idea how @JZ does it, but there is a <em>huge difference in how supported you feel</em> in each community. Does he sleep?&rdquo;</p></div>
+    </div>
+    <p class="refs-note" style="padding:1rem 0 0;"><em>References and contacts available upon request.</em></p>
+    <div class="t-nav">
+      <button class="carousel-btn" id="tPrev" style="position:static;transform:none;">&larr;</button>
+      <div class="t-dots-wrap" id="tDots"></div>
+      <button class="carousel-btn" id="tNext" style="position:static;transform:none;">&rarr;</button>
+    </div>
+  </div>
+</div>
+
+<div id="contact">
+  <div class="avail-bar reveal" style="padding-top:3rem;">
+    <span class="avail-dot"></span>
+    <span class="avail-text">available for new opportunities</span>
+  </div>
+  <div class="contact-section">
+    <h2 class="contact-big reveal">if you need someone who <em>propels your company forward</em> &mdash; who can build narratives, shape strategy, and make a product feel <em>unstoppable</em> &mdash; let&rsquo;s talk.</h2>
+    <div class="contact-center reveal">
+
+      <!-- Centered sparkle email display -->
+      <div class="email-sparkle-wrap" id="emailSparkleWrap">
+        <span class="sparkle-star ss1"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 0L8.2 5.8L14 7L8.2 8.2L7 14L5.8 8.2L0 7L5.8 5.8L7 0Z" fill="#9d4a22"/></svg></span>
+        <span class="sparkle-star ss2"><svg width="10" height="10" viewBox="0 0 14 14" fill="none"><path d="M7 0L8.2 5.8L14 7L8.2 8.2L7 14L5.8 8.2L0 7L5.8 5.8L7 0Z" fill="#9d4a22"/></svg></span>
+        <span class="sparkle-star ss3"><svg width="8" height="8" viewBox="0 0 14 14" fill="none"><path d="M7 0L8.2 5.8L14 7L8.2 8.2L7 14L5.8 8.2L0 7L5.8 5.8L7 0Z" fill="#9d4a22"/></svg></span>
+        <span class="sparkle-star ss4"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M7 0L8.2 5.8L14 7L8.2 8.2L7 14L5.8 8.2L0 7L5.8 5.8L7 0Z" fill="#9d4a22"/></svg></span>
+        <span class="sparkle-star ss5"><svg width="9" height="9" viewBox="0 0 14 14" fill="none"><path d="M7 0L8.2 5.8L14 7L8.2 8.2L7 14L5.8 8.2L0 7L5.8 5.8L7 0Z" fill="#9d4a22"/></svg></span>
+        <div class="email-address-display" id="emailDisplay" onclick="copyEmail()">deployjz@gmail.com</div>
+      </div>
+      <div class="email-copied-msg" id="emailCopied">&#10022; copied to clipboard &#10022;</div>
+
+      <!-- Centered email widget -->
+      <div class="email-widget">
+        <div class="ew-header">
+          <div class="ew-dot"></div><div class="ew-dot"></div><div class="ew-dot"></div>
+          <span class="ew-title">new message</span>
+        </div>
+        <div class="ew-body">
+          <div class="ew-field"><span class="ew-label">to</span><div class="ew-val"><a href="mailto:deployjz@gmail.com">deployjz@gmail.com</a></div></div>
+          <div class="ew-divider"></div>
+          <div class="ew-field"><span class="ew-label">subject</span><div class="ew-val">We need to talk (it&rsquo;s a good thing)</div></div>
+          <div class="ew-divider"></div>
+          <div class="ew-text">Hey James!
+
+Let&rsquo;s chat. Can you send me your Calendly link to schedule a time?
+
+[Your name / company]</div>
+          <a class="ew-send" href="mailto:deployjz@gmail.com">send &rarr;</a>
+        </div>
+      </div>
+
+      <!-- Bottom links bar — 4 links equally spaced -->
+      <div class="contact-links-bar">
+        <a href="mailto:deployjz@gmail.com" class="contact-link" style="color:var(--muted);"><span class="contact-link-dot"></span>deployjz@gmail.com</a>
+        <a href="https://x.com/whyjz" class="contact-link" target="_blank"><span class="contact-link-dot"></span>x.com/whyjz &nearr;</a>
+        <a href="https://asymmetry.finance" class="contact-link" target="_blank"><span class="contact-link-dot"></span>asymmetry.finance &nearr;</a>
+        <a href="https://docs.asymmetry.finance" class="contact-link" target="_blank"><span class="contact-link-dot"></span>docs.asymmetry.finance &nearr;</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span class="footer-logo"><span>.</span>james &mdash; jz</span>
+  <div class="footer-links">
+    <a href="#work">work</a><a href="#about">about</a><a href="#experience">experience</a><a href="#capabilities">capabilities</a><a href="#testimonials">references</a><a href="#contact">contact</a>
+  </div>
+  <span style="opacity:0;">&nbsp;</span>
+</footer>
+
+<script>
+// ── Email copy ──────────────────────────────────────────────────
+function copyEmail(){
+  navigator.clipboard.writeText('deployjz@gmail.com').then(()=>{
+    const msg=document.getElementById('emailCopied');
+    msg.classList.add('show');
+    setTimeout(()=>msg.classList.remove('show'),2200);
+  });
+}
+
+// ── Custom cursor ───────────────────────────────────────────────
+const cur=document.getElementById('cur');
+const ring=document.getElementById('cur-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+(function tick(){
+  cur.style.left=mx+'px';cur.style.top=my+'px';
+  rx+=(mx-rx)*.1;ry+=(my-ry)*.1;
+  ring.style.left=rx+'px';ring.style.top=ry+'px';
+  requestAnimationFrame(tick);
+})();
+document.querySelectorAll('a,button,.cap-cell,.exp-grid-cell,.c-card,.testimonial-card,.carousel-btn,.c-dot,.logo-circle').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('hover-link'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('hover-link'));
+});
+
+// ── Scroll reveal ───────────────────────────────────────────────
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');obs.unobserve(e.target);}});
+},{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// ── Logo carousel — duplicate for seamless loop ─────────────────
+(function(){
+  const track=document.getElementById('logoTrack');
+  if(!track)return;
+  track.innerHTML += track.innerHTML;
+
+  // Body-level tooltip — escapes all stacking contexts
+  const tip=document.createElement('div');
+  tip.style.cssText='position:fixed;z-index:99999;background:#2a1f14;color:#fffcf7;font-family:Syne,sans-serif;font-size:.52rem;letter-spacing:.1em;text-transform:lowercase;padding:.28rem .72rem;border-radius:2rem;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .18s;top:0;left:0;';
+  const tipText=document.createElement('span');
+  tip.appendChild(tipText);
+  const arrow=document.createElement('div');
+  arrow.style.cssText='position:absolute;top:100%;left:50%;transform:translateX(-50%);border:4px solid transparent;border-top-color:#2a1f14;';
+  tip.appendChild(arrow);
+  document.body.appendChild(tip);
+
+  track.querySelectorAll('.logo-circle').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{
+      track.style.animationPlayState='paused';
+      const label=el.querySelector('.logo-circle-tooltip');
+      if(!label)return;
+      tipText.textContent=label.textContent;
+      tip.style.opacity='1';
+    });
+    el.addEventListener('mousemove',e=>{
+      const r=el.getBoundingClientRect();
+      const cx=r.left+r.width/2;
+      const ty=r.top-10;
+      tip.style.left=cx+'px';
+      tip.style.top=ty+'px';
+      tip.style.transform='translate(-50%,-100%)';
+    });
+    el.addEventListener('mouseleave',()=>{
+      track.style.animationPlayState='running';
+      tip.style.opacity='0';
+    });
+  });
+})();
+
+// ── Testimonials carousel ───────────────────────────────────────
+(function(){
+  const quotes=[
+    '\u201cHonestly Asymmetry probably has <em>the best comms and social media presence</em> I\u2019ve seen from any crypto project. Everytime there\u2019s a project looking for feedback I point to Asymmetry and tell them to learn from them. @JZ is killing it.\u201d',
+    '\u201cI have no idea how @JZ does it, but there is a <em>huge difference in how supported you feel</em> in each community. Does he sleep?\u201d',
+    '\u201cASF communication is so much better that <em>I actually bought both projects because of it.</em> Props to @JZ.\u201d',
+    '\u201cIt just puzzles us all that we\u2019ve had how many more years than you to setup all these things, yet <em>Asymmetry feels so much higher energy</em>? In AMAs, discord, even on X?\u201d',
+    '\u201cThis team has <em>shipped more than I\u2019ve seen other teams ship in 2\u20133 years.</em> If not, more. Crazy work in 6\u20137 months.\u201d',
+    '\u201c@JZ\u2019s attention to detail is <em>10/10</em>. Asymmetry looks more polished than most billion dollar crypto projects I\u2019ve seen.\u201d'
+  ];
+  const n=quotes.length, pairs=Math.ceil(n/2);
+  let tCur=0;
+  const pair=document.getElementById('tPair');
+  const tCards=pair.querySelectorAll('.testimonial-card');
+  const dotsEl=document.getElementById('tDots');
+  const tDots=Array.from({length:pairs},(_,i)=>{
+    const d=document.createElement('button');
+    d.className='c-dot'+(i===0?' active':'');
+    d.style.cursor='pointer';
+    d.addEventListener('click',()=>tGoTo(i));
+    dotsEl.appendChild(d);
+    return d;
+  });
+  function tGoTo(idx){
+    pair.style.opacity='0';
+    setTimeout(()=>{
+      tCur=((idx%pairs)+pairs)%pairs;
+      const i=tCur*2;
+      tCards[0].querySelector('.testimonial-quote').innerHTML=quotes[i];
+      tCards[1].querySelector('.testimonial-quote').innerHTML=quotes[(i+1)%n];
+      pair.style.opacity='1';
+      tDots.forEach((d,j)=>d.classList.toggle('active',j===tCur));
+    },300);
+  }
+  let tTimer=setInterval(()=>tGoTo(tCur+1),5000);
+  pair.addEventListener('mouseenter',()=>clearInterval(tTimer));
+  pair.addEventListener('mouseleave',()=>{tTimer=setInterval(()=>tGoTo(tCur+1),5000);});
+  document.getElementById('tPrev').addEventListener('click',()=>{clearInterval(tTimer);tGoTo(tCur-1);tTimer=setInterval(()=>tGoTo(tCur+1),5000);});
+  document.getElementById('tNext').addEventListener('click',()=>{clearInterval(tTimer);tGoTo(tCur+1);tTimer=setInterval(()=>tGoTo(tCur+1),5000);});
+})();
+
+// ── Selected Work carousel ──────────────────────────────────────
+(function(){
+  const cards=Array.from(document.querySelectorAll('.c-card'));
+  const dotsEl=document.getElementById('cDots');
+  const n=cards.length;
+  let current=0,isAnimating=false;
+  const dots=cards.map((_,i)=>{
+    const d=document.createElement('button');
+    d.className='c-dot'+(i===0?' active':'');
+    d.addEventListener('click',()=>goTo(i));
+    dotsEl.appendChild(d);
+    return d;
+  });
+  function getClass(i){
+    const diff=((i-current)%n+n)%n;
+    if(diff===0)return 'is-active';
+    if(diff===1||diff===n-1)return 'is-side';
+    return 'is-back';
+  }
+  function render(){
+    cards.forEach((card,i)=>{
+      const diff=((i-current)%n+n)%n;
+      let x=0,z=0,rotY=0,scale=1,opacity=1;
+      if(diff===0){x=0;z=0;rotY=0;scale=1;opacity=1;}
+      else if(diff===1){x=390;z=-180;rotY=-28;scale=0.88;opacity=0.7;}
+      else if(diff===n-1){x=-390;z=-180;rotY=28;scale=0.88;opacity=0.7;}
+      else if(diff===2){x=620;z=-380;rotY=-45;scale=0.72;opacity=0.35;}
+      else if(diff===n-2){x=-620;z=-380;rotY=45;scale=0.72;opacity=0.35;}
+      else{x=diff<n/2?800:-800;z=-600;scale=0.5;opacity=0;}
+      card.style.transform='translateX('+x+'px) translateZ('+z+'px) rotateY('+rotY+'deg) scale('+scale+')';
+      card.style.opacity=opacity;
+      card.classList.remove('is-active','is-side','is-back');
+      card.classList.add(getClass(i));
+    });
+  }
+  function goTo(idx){
+    if(isAnimating)return;
+    isAnimating=true;
+    current=((idx%n)+n)%n;
+    render();
+    dots.forEach((d,j)=>d.classList.toggle('active',j===current));
+    setTimeout(()=>{isAnimating=false;},700);
+  }
+  document.getElementById('cPrev').addEventListener('click',()=>goTo(current-1));
+  document.getElementById('cNext').addEventListener('click',()=>goTo(current+1));
+  // swipe support
+  let tX=0;
+  const stage=document.getElementById('cStage');
+  stage.addEventListener('touchstart',e=>{tX=e.touches[0].clientX;},{passive:true});
+  stage.addEventListener('touchend',e=>{
+    const dx=e.changedTouches[0].clientX-tX;
+    if(Math.abs(dx)>40){goTo(dx<0?current+1:current-1);}
+  },{passive:true});
+  // click card to open link
+  cards.forEach(card=>{
+    card.addEventListener('click',()=>{
+      const href=card.getAttribute('data-href');
+      if(href)window.open(href,'_blank');
+    });
+  });
+  render();
+})();
+</script>
+</body>
+</html>
