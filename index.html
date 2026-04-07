@@ -784,6 +784,13 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
     });
   });
   render();
+  let cTimer=setInterval(()=>goTo(current+1),3000);
+  stage.addEventListener('mouseenter',()=>clearInterval(cTimer));
+  stage.addEventListener('mouseleave',()=>{cTimer=setInterval(()=>goTo(current+1),3000);});
+  document.addEventListener('visibilitychange',()=>{
+    if(document.hidden)clearInterval(cTimer);
+    else cTimer=setInterval(()=>goTo(current+1),3000);
+  });
 })();
 </script>
 </body>
